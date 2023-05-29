@@ -1,236 +1,283 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Personal Finance Tracker</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-    }
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    .form-group {
-      margin-bottom: 10px;
-    }
-    .form-group input[type="text"],
-    .form-group input[type="number"] {
-      width: 100%;
-      padding: 5px;
-    }
-    .form-group button {
-      margin-top: 5px;
-    }
-    .transactions {
-      margin-top: 20px;
-    }
-    .transaction {
-      padding: 10px;
-      margin-bottom: 5px;
-      background-color: #f2f2f2;
-      border-radius: 5px;
-    }
-    .transaction .delete-btn,
-    .transaction .edit-btn {
-      float: right;
-      padding: 5px;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-    .transaction .delete-btn {
-      background-color: #ff0000;
-      color: #fff;
-      border: none;
-      margin-right: 5px;
-    }
-    .transaction .edit-btn {
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-    }
-    .modal-content .form-group {
-      margin-bottom: 10px;
-    }
-    .modal-content .form-group input[type="text"],
-    .modal-content .form-group input[type="number"] {
-      width: 100%;
-      padding: 5px;
-    }
-    .modal-content .form-group button {
-      margin-top: 5px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Personal Finance Tracker</h1>
+  <head>
+    <title>Personal Finance Tracker</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #e0e0eb;
+      }
 
+      h1 {
+        text-align: center;
+      }
 
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input type="text" id="description" placeholder="Enter description">
-    </div>
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-    <div class="form-group">
-      <label for="amount">Amount</label>
-      <input type="number" id="amount" placeholder="Enter amount">
-    </div>
+      .form-group {
+        margin-bottom: 10px;
+      }
 
-    <div class="form-group">
-      <button onclick="addTransaction()">Add Expense</button>
-    </div>
+      .form-group input[type="text"],
+      .form-group input[type="number"] {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
 
-    <div class="transactions">
-      <h2>Transactions</h2>
-      <div id="transactionList"></div>
-      <h3>Balance: ₹<span id="balance">0</span></h3>
+      .form-group button {
+        margin-top: 5px;
+        padding: 8px 12px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
 
-    </div>
+      .transactions {
+        margin-top: 20px;
+      }
 
-    <div id="editModal" class="modal">
-      <div class="modal-content">
-        <h2>Edit Expense</h2>
-        <div class="form-group">
-          <label for="editDescription">Description</label>
-          <input type="text" id="editDescription" placeholder="Enter description">
-        </div>
-        <div class="form-group">
-          <label for="editAmount">Amount</label>
-          <input type="number" id="editAmount" placeholder="Enter amount">
-        </div>
-        <div class="form-group">
-          <button onclick="updateTransaction()">Update</button>
-          <button onclick="closeModal()">Cancel</button>
+      .transaction {
+        padding: 10px;
+        margin-bottom: 5px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+      }
+
+      .transaction .delete-btn,
+      .transaction .edit-btn {
+        float: right;
+        padding: 5px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .transaction .delete-btn {
+        background-color: #ff0000;
+        color: #fff;
+        border: none;
+        margin-right: 5px;
+      }
+
+      .transaction .edit-btn {
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+
+      .modal-content .form-group {
+        margin-bottom: 10px;
+      }
+
+      .modal-content .form-group input[type="text"],
+      .modal-content .form-group input[type="number"] {
+        width: 100%;
+        padding: 5px;
+      }
+
+      .modal-content .form-group button {
+        margin-top: 5px;
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          max-width: 100%;
+          padding: 10px;
+        }
+      }
+
+      @media (min-width: 577px) and (max-width: 992px) {
+        .container {
+          max-width: 100%;
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Personal Finance Tracker</h1>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" placeholder="Enter description" />
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" placeholder="Enter amount" />
+      </div>
+
+      <div class="form-group">
+        <button onclick="addTransaction()">Add Expense</button>
+      </div>
+
+      <div class="transactions">
+        <h2>Transactions</h2>
+        <div id="transactionList"></div>
+        <h3>Balance: ₹<span id="balance">0</span></h3>
+      </div>
+
+      <div id="editModal" class="modal">
+        <div class="modal-content">
+          <h2>Edit Expense</h2>
+          <div class="form-group">
+            <label for="editDescription">Description</label>
+            <input
+              type="text"
+              id="editDescription"
+              placeholder="Enter description"
+            />
+          </div>
+          <div class="form-group">
+            <label for="editAmount">Amount</label>
+            <input type="number" id="editAmount" placeholder="Enter amount" />
+          </div>
+          <div class="form-group">
+            <button onclick="updateTransaction()">Update</button>
+            <button onclick="closeModal()">Cancel</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <script>
+      let transactions = [];
+      let balance = 0;
+      let editMode = false;
+      let selectedTransactionIndex = -1;
+      const transactionList = document.getElementById("transactionList");
+      const descriptionInput = document.getElementById("description");
+      const amountInput = document.getElementById("amount");
+      const balanceSpan = document.getElementById("balance");
+      const editDescriptionInput = document.getElementById("editDescription");
+      const editAmountInput = document.getElementById("editAmount");
+      const editModal = document.getElementById("editModal");
 
-  <script>
-    let transactions = [];
-    let balance = 0;
-    let editMode = false;
-    let selectedTransactionIndex = -1;
-    const transactionList = document.getElementById('transactionList');
-    const descriptionInput = document.getElementById('description');
-    const amountInput = document.getElementById('amount');
-    const balanceSpan = document.getElementById('balance');
-    const editDescriptionInput = document.getElementById('editDescription');
-    const editAmountInput = document.getElementById('editAmount');
-    const editModal = document.getElementById('editModal');
+      function renderTransactions() {
+        transactionList.innerHTML = "";
 
-    function renderTransactions() {
-      transactionList.innerHTML = '';
-
-      transactions.forEach((transaction, index) => {
-        const transactionElement = document.createElement('div');
-        transactionElement.classList.add('transaction');
-        transactionElement.innerHTML = `
+        transactions.forEach((transaction, index) => {
+          const transactionElement = document.createElement("div");
+          transactionElement.classList.add("transaction");
+          transactionElement.innerHTML = `
           <span>${transaction.description}</span>
           <span>${transaction.amount}</span>
           <button class="delete-btn" onclick="deleteTransaction(${index})">Delete</button>
           <button class="edit-btn" onclick="openEditModal(${index})">Edit</button>
         `;
-        transactionList.appendChild(transactionElement);
-      });
+          transactionList.appendChild(transactionElement);
+        });
 
-      balanceSpan.textContent = balance.toFixed(2);
-    }
-
-    function addTransaction() {
-      const description = descriptionInput.value.trim();
-      const amount = parseFloat(amountInput.value);
-
-      if (description === '' || isNaN(amount)) {
-        return;
+        balanceSpan.textContent = balance.toFixed(2);
       }
 
-      const transaction = {
-        description,
-        amount
-      };
+      function addTransaction() {
+        const description = descriptionInput.value.trim();
+        const amount = parseFloat(amountInput.value);
 
-      transactions.push(transaction);
-      balance -= amount;
+        if (description === "" || isNaN(amount)) {
+          return;
+        }
 
-      renderTransactions();
+        const transaction = {
+          description,
+          amount,
+        };
 
-      descriptionInput.value = '';
-      amountInput.value = '';
-    }
+        transactions.push(transaction);
+        balance -= amount;
 
-    function deleteTransaction(index) {
-      const deletedTransaction = transactions.splice(index, 1)[0];
-      balance += deletedTransaction.amount;
-      renderTransactions();
-    }
+        renderTransactions();
 
-    function openEditModal(index) {
-      selectedTransactionIndex = index;
-      const transaction = transactions[index];
-
-      editDescriptionInput.value = transaction.description;
-      editAmountInput.value = transaction.amount;
-
-      editModal.style.display = 'block';
-    }
-
-    function closeModal() {
-      editModal.style.display = 'none';
-      editDescriptionInput.value = '';
-      editAmountInput.value = '';
-    }
-
-    function updateTransaction() {
-      const description = editDescriptionInput.value.trim();
-      const amount = parseFloat(editAmountInput.value);
-
-      if (description === '' || isNaN(amount)) {
-        return;
+        descriptionInput.value = "";
+        amountInput.value = "";
       }
 
-      const previousAmount = transactions[selectedTransactionIndex].amount;
-      balance += previousAmount - amount;
+      function deleteTransaction(index) {
+        const deletedTransaction = transactions.splice(index, 1)[0];
+        balance += deletedTransaction.amount;
+        renderTransactions();
+      }
 
-      transactions[selectedTransactionIndex].description = description;
-      transactions[selectedTransactionIndex].amount = amount;
+      function openEditModal(index) {
+        selectedTransactionIndex = index;
+        const transaction = transactions[index];
 
-      closeModal();
-      renderTransactions();
-    }
+        editDescriptionInput.value = transaction.description;
+        editAmountInput.value = transaction.amount;
 
-    function initialize() {
-      const income = parseFloat(prompt('Enter your income'));
-      if (!isNaN(income)) {
+        editModal.style.display = "block";
+      }
+
+      function closeModal() {
+        editModal.style.display = "none";
+        editDescriptionInput.value = "";
+        editAmountInput.value = "";
+      }
+
+      function updateTransaction() {
+        const description = editDescriptionInput.value.trim();
+        const amount = parseFloat(editAmountInput.value);
+
+        if (description === "" || isNaN(amount)) {
+          return;
+        }
+
+        const previousAmount = transactions[selectedTransactionIndex].amount;
+        balance += previousAmount - amount;
+
+        transactions[selectedTransactionIndex].description = description;
+        transactions[selectedTransactionIndex].amount = amount;
+
+        closeModal();
+        renderTransactions();
+      }
+
+      function initialize() {
+        let income = null;
+
+        while (income === null || isNaN(income)) {
+          income = parseFloat(prompt("Enter your income (required)"));
+        }
+
         balance = income;
         balanceSpan.textContent = balance.toFixed(2);
       }
-    }
 
-    initialize();
-  </script>
-</body>
+      initialize();
+    </script>
+  </body>
 </html>
